@@ -5,7 +5,7 @@ const loadAuth = (req, res) => {
 
 const successGoogleLogin = (req , res) => { 
 	if(!req.user) 
-		res.redirect('/failure'); 
+		res.redirect("https://mdb-eqr8.onrender.com/"); 
 
     
     console.log(req.user);
