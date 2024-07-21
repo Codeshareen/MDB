@@ -1,18 +1,40 @@
-const express = require('express');
+require('dotenv').config();
+
+const express = require('express'); 
+const app = express(); 
+const session = require('express-session');
+
+
+
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET 
+}));
+
+app.set('view engine', 'ejs');
+
+const userRoutes = require('./routes/userRoute');
+
+app.use('/',userRoutes);
+
+
+
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const qr = require('qrcode');
 const path = require("path");
 const { Complaint, Alldata, Solved } = require('./db');
-const app = express();
+
 const PORT = process.env.PORT || 3000;
 const favicon = require('serve-favicon');
-const session = require('express-session');
+
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.set('view engine', 'ejs');
+
 var nodemailer = require('nodemailer');
 const moment = require('moment');
 
@@ -24,9 +46,25 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-const userRoutes = require('./routes/userRoute');
 
-app.use('/',userRoutes);
+// CHECK GA
+
+app.get('/logout', (req, res) => {
+
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Error logging out');
+        }
+        res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://complaint-management-system-for-college-2bte.onrender.com/');
+        // res.redirect('/');
+    });
+});
+
+
+app.get('/displayEmail', (req, res) => {
+    const email = req.session.verifiedemail;
+    res.render('displayEmail', { email });
+});
 
 
 
@@ -192,17 +230,13 @@ app.post('/submit_complaint', async (req, res) => {
 //     cookie: { secure: false }
 // }));
 
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET 
-}));
+
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/public/images/', express.static('./public/images'));
 
 app.set("views", path.join(__dirname, "/views"));
-app.set('view engine', 'ejs');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -213,8 +247,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-app.get('/h', async (req, res) => {
+app.get('/', async (req, res) => {
     console.log("home checkk");
+    const email = req.session.verifiedemail;
     try {
         const complaints = await Alldata.find();
 
@@ -245,7 +280,7 @@ app.get('/h', async (req, res) => {
             complaints: complaints,
             pendingCount: pendingCount,
             processingCount: processingCount,
-            solvedCount: solvedCount
+            solvedCount: solvedCount,email
         });
     } catch (error) {
         console.error(error);
@@ -269,8 +304,17 @@ app.get('/about', (req, res) => {
 
 app.get('/st/:branch', (req, res) => {
     const branch = req.params.branch;
-    res.render('complaint_form', { branch: branch });
+    const email = req.session.verifiedemail;
+    req.session.branch = branch;
+
+    res.render('complaint_form', { branch,email });
+    console.log("CHECK branch");
+    console.log(req.session.branch);
 });
+
+
+
+
 app.post('/c/check_complaint_status', async (req, res) => {
     const refId = req.body.refId;
 
@@ -582,7 +626,3 @@ app.listen(PORT, () => {
 });
 
 
-
-app.get('/', (req, res) => {
-    res.render('home');
-});

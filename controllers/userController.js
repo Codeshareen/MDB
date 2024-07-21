@@ -6,9 +6,17 @@ const loadAuth = (req, res) => {
 const successGoogleLogin = (req , res) => { 
 	if(!req.user) 
 		res.redirect('/failure'); 
+
+    
     console.log(req.user);
-    const userEmail = req.user.email;
-    res.render('welcome', { userEmail }); 
+    req.session.verifiedemail = req.user.email;
+    // const userEmail =   req.session.verifiedemail;
+
+    console.log("CHECK AUTH");
+    console.log(req.session.verifiedemail);
+
+
+    res.redirect('/');
 }
 
 const failureGoogleLogin = (req , res) => { 
