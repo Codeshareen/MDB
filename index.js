@@ -55,7 +55,7 @@ app.get('/logout', (req, res) => {
         if (err) {
             return res.status(500).send('Error logging out');
         }
-        res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://complaint-management-system-for-college-2bte.onrender.com/');
+        res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://mdb-eqr8.onrender.com/');
         // res.redirect('/');
     });
 });
@@ -179,7 +179,7 @@ app.post('/submit_complaint', async (req, res) => {
         await newData.save();
 
 
-        const qrCodeUrl = await qr.toDataURL(`https://complaint-management-system-for-college-2bte.onrender.com/c/qr/${refId}`);
+        const qrCodeUrl = await qr.toDataURL(`https://mdb-eqr8.onrender.com/c/qr/${refId}`);
 
 
         res.render('complaint_ref_id', { qrCodeUrl, refId });
@@ -199,7 +199,7 @@ app.post('/submit_complaint', async (req, res) => {
         <p><strong>Reference ID:</strong> ${refId}</p>
         <p>Date & Time: ${formattedDateTime}</p>
         <p>Thank you for using our service.</p>
-        <a href="https://complaint-management-system-for-college-2bte.onrender.com/c/qr/${refId}" target="_blank">CHECK-STATUS</a>
+        <a href="https://mdb-eqr8.onrender.com/c/qr/${refId}" target="_blank">CHECK-STATUS</a>
 
         <p>Best regards,<br>AITAM Portal Team</p>
     `
@@ -473,7 +473,7 @@ app.post('/mark_as_solved/:branch/:refId', async (req, res) => {
         <p><strong>Reference ID:</strong> ${refId}</p>
         <p>Date & Time: ${formattedDateTime}</p>
         <p>Thank you for using our service.</p>
-        <a href="https://complaint-management-system-for-college-2bte.onrender.com/c/qr/${refId}" target="_blank">CHECK-STATUS</a>
+        <a href="https://mdb-eqr8.onrender.com/c/qr/${refId}" target="_blank">CHECK-STATUS</a>
 
         <p>Best regards,<br>AITAM Portal Team</p>
     `

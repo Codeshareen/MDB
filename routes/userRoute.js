@@ -22,6 +22,7 @@ router.get( '/auth/google/callback',
 		failureRedirect: '/failure'
 }));
 
+
 // Success 
 router.get('/success' , userController.successGoogleLogin); 
 
