@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Complaints Dashboard</title>
+    <style>
+        body {
+            font-family:monospace;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+        h4 {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+        }
+        .dashboard-section {
+            margin-top: 20px;
+            background:#402E7A;
+            border: 1px solid rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin: 10px;
+        }
+        .section-header {
+            font-size: 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: springgreen;
+        }
+        .complaint {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .pending {
+            background-color: #f7be16;
+            color: #fff;
+        }
+        .processing {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .solved {
+            background-color: #27ae60;
+            color: #fff;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .dashboard-section {
+                padding: 10px;
+            }
+            .section-header {
+                font-size: 18px;
+            }
+        }
+        .bg-default{
+
+            width:30px;
+            
+        }
+
+        .cs {
+  border-radius: .25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #fff;
+  -webkit-clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  height: 40px;
+  font-size: 0.7rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: .2s .1s;
+  background-image: linear-gradient(90deg,#1c1c1c,#6220fb);
+  border: 0 solid;
+  overflow: hidden;
+;
+}
+
+.cs:hover {
+  cursor: pointer;
+  transition: all .3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body >
+    <header style="position: fixed; left:0; top:0; width: 100%; ">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #EEF2F7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <img src="../public/images/AITAM Logo.png" alt="AITAM Logo" style="width: 200px;">
+            <ul style="list-style: none; display: flex; gap: 20px; margin: 0;">
+                <a href="https://complaint-management-system-for-college-2bte.onrender.com/"><button class="cs">Home</button></a>
+
+                <button class="cs"><a style="  text-decoration: none;
+  color: inherit" href="https://complaint-management-system-for-college-2bte.onrender.com/admin">Admin</a></button>
+
+            </ul>
+        </nav>
+    
+    </header>
+    
+    <h4 style="margin-top: 60px;">Complaints Dashboard</h1>
+
+
+
+    <div class="dashboard-section" id="pending-section">
+        <div class="section-header" onclick="toggleSection('pending')">Pending Complaints <span class="badge bg-default" style="color:white; background-color: red; font-size:medium; padding:6px; border-radius:50% ; "><%=    pendingCount%></span></div>
+        <button class="close-btn" onclick="closeSection('pending')">CLOSE</button>
+        <div id="pending-content">
+            <% complaints.filter(complaint => complaint.status === 'pending').forEach(function(complaint) { %>
+                <div class="complaint pending">
+                    <strong>Reference ID:</strong> <%= complaint.refid %><br>
+                    <strong>Message:</strong> <%= complaint.message %><br>
+                    <strong>Created At:</strong> <%= complaint.createdDate %><br>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="dashboard-section" id="solved-section">
+        <div class="section-header" onclick="toggleSection('solved')">Solved Complaints <span class="badge bg-default" style="color:white; background-color: red; font-size:medium; padding:6px; border-radius:50% ;"><%=    solvedCount%></span></div>
+        <button class="close-btn" onclick="closeSection('solved')">CLOSE</button>
+        <div id="solved-content">
+            <% complaints.filter(complaint => complaint.status === 'solved').forEach(function(complaint) { %>
+                <div class="complaint solved">
+                    <strong>Reference ID:</strong> <%= complaint.refid %><br>
+                    <strong>Message:</strong> <%= complaint.message %><br>
+                    <strong>Created At:</strong> <%= complaint.createdDate %><br>
+                    <strong>solved At:</strong> <%= complaint.solvedDate %><br>
+
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+
+        
+        function toggleSection(sectionId) {
+            var sectionContent = document.getElementById(sectionId + '-content');
+            var closeBtn = document.querySelector('#' + sectionId + '-section .close-btn');
+            sectionContent.style.display = (sectionContent.style.display === 'none') ? 'block' : 'none';
+            closeBtn.style.display = (sectionContent.style.display === 'none') ? 'none' : 'block';
+        }
+
+        function closeSection(sectionId) {
+            var sectionContent = document.getElementById(sectionId + '-content');
+            var closeBtn = document.querySelector('#' + sectionId + '-section .close-btn');
+            sectionContent.style.display = 'none';
+            closeBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

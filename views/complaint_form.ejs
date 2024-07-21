@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Form</title>
+    <style>
+
+        
+        /* General body styles */
+        .body1 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            background-color: white;
+        }
+
+        /* Form container styles */
+        form {
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            margin: 10px;
+        }
+
+        /* Title styles */
+        .title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: #00bfff;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: #00bfff;
+}
+
+        /* Input and select styles */
+        .input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Textarea styles */
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        /* Submit button styles */
+        .submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media only screen and (max-width: 600px) {
+            body {
+                justify-content: flex-start; /* Align content at the top */
+                padding-top: 15px; /* Maintain space above the form */
+                padding-bottom: 100px;
+                }
+
+            form {
+                margin-top: 20px; /* Adjust margin-top to create space */
+            }
+        }
+
+        
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.cs {
+  border-radius: .25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #fff;
+  -webkit-clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  height: 40px;
+  font-size: 0.7rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: .2s .1s;
+  background-image: linear-gradient(90deg,#1c1c1c,#6220fb);
+  border: 0 solid;
+  overflow: hidden;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.cs:hover {
+  cursor: pointer;
+  transition: all .3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+    </style>
+</head>
+<body>
+
+<div class="body1">
+    <header style="position: fixed; left:0; top:0; width: 100%;">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #EEF2F7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <img src="../public/images/AITAM Logo.png" alt="AITAM Logo" style="width: 200px;">
+            <ul style="list-style: none; display: flex; gap: 20px; margin: 0;">
+                <a href="https://complaint-management-system-for-college-2bte.onrender.com/"><button class="cs">Home</button></a>
+            </ul>
+        </nav>
+    </header>
+
+    <div style="scale: 0.8; ">
+        <form class="form" action="/submit_complaint" method="post">
+            <p class="title">Register </p>
+            <p class="message">branch : <%= branch %> </p>
+            <input class="input" type="hidden" name="branch" value="<%= branch%>">
+            <label for="rollNumber">Enter Roll Number:</label>
+            <input class="input" type="text" id="rollNumber" name="rollNumber" required>
+            <br>
+            <label for="email">Email :</label>
+            <input class="input" type="text" id="emailr" name="email" required>
+            <br>
+            <label for="complaintType">Select Complaint Type:</label>
+            <select id="complaintType" name="complaintType" required>
+                <option value="">Select</option>
+                <option value="academic">Academic Issues</option>
+                <option value="infrastructure">Infrastructure Problems</option>
+                <option value="faculty">Faculty Related Concerns</option>
+                <option value="harassment">Harassment or Discrimination</option>
+                <option value="exam">Exam and Evaluation Grievances</option>
+                <option value="fee">Fee Payment and Refund Disputes</option>
+                <option value="hostel">Hostel and Accommodation Complaints</option>
+                <option value="library">Library and Resource Center Feedback</option>
+                <option value="health">Health and Safety Concerns</option>
+                <option value="suggestions">General Suggestions and Feedback</option>
+                
+            </select>
+            <br>
+            <label for="complaintMessage">Enter Complaint:</label>
+            <textarea id="complaintMessage" name="complaintMessage" rows="4" cols="50" required></textarea>
+            <p id="wordCount">Words remaining: 70</p>
+                    
+            <button class="submit" type="submit">Submit Complaint</button>
+        </form>
+    </div>
+
+   
+</div>
+
+
+
+
+<footer style="position:fixed; bottom: 0; left: 0; right: 0; ">
+    <%- include('footer') %>
+  </footer>
+    
+  
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var textarea = document.getElementById("complaintMessage");
+            var wordCount = document.getElementById("wordCount");
+
+            textarea.addEventListener("input", function() {
+                var words = textarea.value.trim().split(/\s+/);
+                var remainingWords = 70 - words.length;
+                wordCount.textContent = "Words remaining: " + remainingWords;
+
+                if (remainingWords < 0) {
+                    // Remove excess words
+                    textarea.value = words.slice(0, 70).join(' ');
+                    wordCount.textContent = "Words remaining: 0";
+                }
+            });
+        });
+    </script>
+
+   
+</body>
+</html>
+
+
+
+
+

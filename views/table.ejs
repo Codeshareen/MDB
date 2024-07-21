@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Complaints</title>
+    <style>
+        body {
+        
+            margin: 0;
+            padding: 0;
+            background-color: #fff; /* White background */
+            color: #000; /* Black text */
+        }
+
+        .container {
+            max-width: 100%;
+            /* margin-top: 5%; */
+            background-color: #f0f0f0; /* Light gray background */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            color: #333; /* Dark gray text */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff; /* White background for table */
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db; /* Blue header background */
+            color: #fff; /* White text */
+        }
+
+        tr:nth-child(even) {
+            background-color: #ecf0f1; /* Light gray background for even rows */
+        }
+
+        tr:hover {
+            background-color: #d5dbdb; /* Lighter gray background on hover */
+        }
+
+        button {
+            background-color: #3498db; /* Blue button color */
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+        .cs {
+  border-radius: .25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #fff;
+  -webkit-clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  height: 40px;
+  font-size: 0.7rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: .2s .1s;
+  background-image: linear-gradient(90deg,#1c1c1c,#6220fb);
+  border: 0 solid;
+  overflow: hidden;
+}
+
+.cs:hover {
+  cursor: pointer;
+  transition: all .3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+
+
+td:nth-child(3) {
+    width: 50%; /* Adjust the percentage as needed */
+}
+
+td:nth-child(6) {
+    width: 10%; /* Adjust the percentage as needed */
+}
+
+td:nth-child(4) {
+    width: 10%; /* Adjust the percentage as needed */
+}
+
+td:nth-child(5) {
+    width: 10%; /* Adjust the percentage as needed */
+}
+
+
+td:nth-child(2) {
+    width: 10%; /* Adjust the percentage as needed */
+}
+
+
+td:nth-child(1) {
+    width: 10%; /* Adjust the percentage as needed */
+}
+/* Responsive Styles */
+@media only screen and (max-width: 600px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+
+    button {
+        padding: 4px 12px;
+        font-size: 12px;
+    }
+}
+
+
+
+        a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+    </style>
+</head>
+<body>
+     
+    <header style="left:0; top:0; width: 100%;">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #EEF2F7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <img src="../public/images/AITAM Logo.png" alt="AITAM Logo" style="width: 200px;">
+            <ul style="list-style: none; display: flex; gap: 20px; margin: 0;">
+                <a href="https://complaint-management-system-for-college-2bte.onrender.com/"><button class="cs">Home</button></a>
+            </ul>
+        </nav>
+    </header>
+    
+  
+    <div class="container">   
+        <div > <h1 style="text-align: center;  color: #333; font-size: large; ">complaints  - <%= branch %></h1></div>   
+        <table border="1">
+           
+            <thead>
+                <tr>
+                    <th>Complaint Type</th>
+                    <th>Roll Number</th>
+                    <th>Message</th>
+                    <!-- <th>Created At</th> -->
+                    <!-- <th>Branch</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% complaints.forEach(function(complaint) { %>
+                    <tr>
+                        <td><%= complaint.complaintType %></td>
+                        <td><%= complaint.rollNumber %></td>
+                        <td><%= complaint.complaintMessage %></td>
+                        <!-- <td><%= complaint.created_at %></td> -->
+                        <!-- <td><%= complaint.branch %></td> -->
+                        <td>
+                            <% if (complaint.status !== 'solved') { %>
+                                <form action="/mark_as_solved/<%= complaint.branch %>/<%= complaint.refId %>" method="POST">
+                                    <button type="submit">Mark as Solved</button>
+                                </form>
+                            <% } else { %>
+                                <span class="solved">Solved</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
