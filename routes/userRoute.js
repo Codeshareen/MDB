@@ -29,20 +29,24 @@ router.get('/success' , userController.successGoogleLogin);
 // failure 
 router.get('/failure' , userController.failureGoogleLogin);
 
-router.get('/lo', (req, res) => {
-    req.logout(); // Passport.js function to clear login session
-    req.session.destroy(err => {
+router.get('/logout', (req, res) => {
+    req.logout((err) => {
         if (err) {
-            console.error('Error destroying session:', err);
+            console.error('Error logging out:', err);
             return res.status(500).send('Error logging out');
         }
-        res.redirect('/');
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send('Error logging out');
+            }
+            res.redirect('/');
+        });
     });
 });
 
-// LOGOUT
 
-// app.get('/logout', function(req, res, next){
+// router.get('/logout', function(req, res, next){
 //     req.logout(function(err) {
 //       if (err) { return next(err); }
 //       res.redirect('/');
