@@ -49,16 +49,16 @@ var transporter = nodemailer.createTransport({
 
 // CHECK GA
 
-// app.get('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
 
-//     req.session.destroy(err => {
-//         if (err) {
-//             return res.status(500).send('Error logging out');
-//         }
-//         res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://mdb-eqr8.onrender.com/');
-//         // res.redirect('/');
-//     });
-// });
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Error logging out');
+        }
+        res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://mdb-eqr8.onrender.com/');
+        // res.redirect('/');
+    });
+});
 
 
 app.get('/displayEmail', (req, res) => {
