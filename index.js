@@ -247,6 +247,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+
 app.get('/', async (req, res) => {
     console.log("home checkk");
     const email = req.session.verifiedemail;
@@ -551,14 +552,14 @@ app.post('/:branch/login', (req, res) => {
     if (password === '12345') {
         req.session.authenticatedHod = true;
 
-        res.redirect(`/${branch}`);
+        res.redirect(`/secure/${branch}`);
     } else {
 
         res.send("wrong password");
     }
 });
 
-app.get('/:branch', authenticateBranch, async (req, res) => {
+app.get('/secure/:branch', authenticateBranch, async (req, res) => {
     const validBranches = ['csm', 'cse', 'ece', 'csd', 'eee', 'mec', 'civil', 'alldata', 'mba', 'mt', 'it'];
     const branch = req.params.branch.toLowerCase();
 
@@ -618,7 +619,9 @@ app.get('/c/qr/:refId', async (req, res) => {
 
 
 
-
+app.get('*', (req, res) => {
+    res.redirect('/'); // Redirect to the home page
+  });
 
 // Start the server
 app.listen(PORT, () => {
