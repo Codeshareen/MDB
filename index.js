@@ -47,18 +47,6 @@ var transporter = nodemailer.createTransport({
 });
 
 
-// CHECK GA
-
-// app.get('/logout', (req, res) => {
-
-//     req.session.destroy(err => {
-//         if (err) {
-//             return res.status(500).send('Error logging out');
-//         }
-//         res.redirect('https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://mdb-eqr8.onrender.com/');
-//         // res.redirect('/');
-//     });
-// });
 
 
 app.get('/displayEmail', (req, res) => {
@@ -292,6 +280,7 @@ app.get('/', async (req, res) => {
 
 
 app.get('/hod', (req, res) => {
+
     res.render('hod');
 });
 
@@ -531,6 +520,44 @@ app.get('/a/all', async (req, res) => {
     } catch (error) {
         console.error(error);
 
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+app.get('/a/bd', async (req, res) => {
+    console.log("ALL DATA");
+    try {
+        const complaints = await Complaint.find();
+
+        // Initialize an object to store counts per branch
+        let branchCounts = {
+            'csm': 0,
+            'csd': 0,
+            'cse': 0,
+            'ece': 0,
+            'civil': 0,
+            'mec': 0,
+            'eee': 0,
+            'it': 0,
+            'mba': 0,
+            'mt': 0
+        };
+
+        complaints.forEach(complaint => {
+            const branch = complaint.branch;
+
+            if (branchCounts.hasOwnProperty(branch)) {
+                branchCounts[branch]++;
+            }
+        });
+
+        res.render('hod', {
+            complaints: complaints,
+            branchCounts: branchCounts
+        });
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Data</title>
+</head>
+<body>
+
+
+    <h2>Pending Complaints Data</h2>
+    <ul>
+        <% Object.keys(branchCounts).forEach(branch => { %>
+            <li><%= branch %> : <%= branchCounts[branch] %> </li>
+        <% }); %>
+    </ul>
+
+ 
+</body>
+</html>
