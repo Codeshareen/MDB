@@ -279,10 +279,10 @@ app.get('/', async (req, res) => {
 });
 
 
-app.get('/hod', (req, res) => {
+// app.get('/hod', (req, res) => {
 
-    res.render('hod');
-});
+//     res.render('hod');
+// });
 
 app.get('/st', (req, res) => {
     res.render('select_table');
@@ -446,7 +446,7 @@ app.post('/mark_as_solved/:branch/:refId', async (req, res) => {
         }
 
         console.log('Complaints moved successfully');
-        res.redirect(`/${branch}`);
+        res.redirect(`/secure/${branch}`);
 
 
         
@@ -525,7 +525,7 @@ app.get('/a/all', async (req, res) => {
 });
 
 
-app.get('/a/bd', async (req, res) => {
+app.get('/hod', async (req, res) => {
     console.log("ALL DATA");
     try {
         const complaints = await Complaint.find();
@@ -643,6 +643,72 @@ app.get('/c/qr/:refId', async (req, res) => {
     }
 
 });
+
+
+
+
+
+
+
+
+// Function to fetch complaint counts for a given year
+async function getComplaintCounts(year) {
+    try {
+        const startOfYear = new Date(year, 0, 1); // January 1st of the selected year
+        const endOfYear = new Date(year, 11, 31, 23, 59, 59); // December 31st of the selected year
+
+        const registeredCount = await Alldata.countDocuments({
+            createdDate: {
+                $gte: startOfYear.toISOString(),
+                $lte: endOfYear.toISOString()
+            }
+        });
+
+        const solvedCount = await Alldata.countDocuments({
+            solvedDate: {
+                $gte: startOfYear.toISOString(),
+                $lte: endOfYear.toISOString()
+            }
+        });
+
+        return { registeredCount, solvedCount };
+    } catch (err) {
+        console.error('Error fetching complaint counts:', err);
+        throw err;
+    }
+}
+
+// POST endpoint to handle form submission and render complaints.ejs
+app.post('/ch', async (req, res) => {
+    const selectedYear = parseInt(req.body.year) || new Date().getFullYear(); // Parse selected year from POST body
+
+    try {
+        const counts = await getComplaintCounts(selectedYear);
+        res.render('complaints', { selectedYear, counts });
+    } catch (err) {
+        console.error('Error rendering complaints page:', err);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+// GET endpoint to initially render complaints.ejs
+app.get('/ch', async (req, res) => {
+    const selectedYear = new Date().getFullYear(); // Default to current year for initial GET request
+
+    try {
+        const counts = await getComplaintCounts(selectedYear);
+        res.render('complaints', { selectedYear, counts });
+    } catch (err) {
+        console.error('Error rendering complaints page:', err);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+
+
+
+
+
 
 
 
