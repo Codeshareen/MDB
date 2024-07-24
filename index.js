@@ -90,6 +90,8 @@ const mongoURI = 'mongodb+srv://wbest5991:BuXQEithRk1oSOrW@cluster0.vnkbvtr.mong
 //  const mongoURI = 'mongodb://localhost:27017/cp'
 
 
+// kjnkj
+
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -457,7 +459,7 @@ app.post('/mark_as_solved/:branch/:refId', async (req, res) => {
             from: 'grievance.portal@adityatekkali.edu.in',
             to: `${email}`,
             subject: 'Complaint Solved',
-            html: `n
+            html: `
         <p>Dear User,</p>
         <p>Your complaint was solved</p>
         <p><strong>Reference ID:</strong> ${refId}</p>
