@@ -41,8 +41,8 @@ const moment = require('moment');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'aitam.grievance.cell@gmail.com',
-        pass: 'plzs tfdm peob pjdd'
+        user: 'grievance.portal@adityatekkali.edu.in',
+        pass: 'clfr rxvo iwnr nbif'
     }
 });
 
@@ -63,7 +63,7 @@ app.get('/gc/c', (req, res) => {
 
     // HTML-formatted email content
     var mailOptions = {
-        from: 'aitam.grievance.cell@gmail.com',
+        from: 'grievance.portal@adityatekkali.edu.in',
         to: 'tirumalareddi712@gmail.com',
         subject: 'Complaint Registration Confirmation',
         html: `
@@ -178,7 +178,7 @@ app.post('/submit_complaint', async (req, res) => {
 
         // HTML-formatted email content
         var mailOptions = {
-            from: 'aitam.grievance.cell@gmail.com',
+            from: 'grievance.portal@adityatekkali.edu.in',
             to: `${email}`,
             subject: 'Complaint Registration Confirmation',
             html: `
@@ -454,7 +454,7 @@ app.post('/mark_as_solved/:branch/:refId', async (req, res) => {
 
         // HTML-formatted email content
         var mailOptions = {
-            from: 'aitam.grievance.cell@gmail.com',
+            from: 'grievance.portal@adityatekkali.edu.in',
             to: `${email}`,
             subject: 'Complaint Solved',
             html: `n
