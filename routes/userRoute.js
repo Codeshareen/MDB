@@ -52,12 +52,13 @@ router.get('/notvalid', (req, res) => {
             console.error('Error logging out:', err);
             return res.status(500).send('Error logging out');
         }
+        const tempmail  =   req.session.verifiedemail;
         req.session.destroy(err => {
             if (err) {
                 console.error('Error destroying session:', err);
                 return res.status(500).send('Error logging out');
             }
-            res.write('Unauthorized email\n');
+            res.write(`Unauthorized email\n ${tempmail}`);
             res.write('if you are facing any issue Please use private window');
             res.end();        });
     });
