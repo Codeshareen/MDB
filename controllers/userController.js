@@ -15,6 +15,11 @@ const successGoogleLogin = (req , res) => {
     console.log("CHECK AUTH");
     console.log(req.session.verifiedemail);
 
+    if (!req.user.email.endsWith("@adityatekkali.edu.in")) {
+        res.redirect('/notvalid');
+        return; // Return to prevent further execution
+    }
+
 
     res.redirect('/');
 }
