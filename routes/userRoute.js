@@ -47,12 +47,14 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/notvalid', (req, res) => {
+    const tempmail  =   req.session.verifiedemail;
     req.logout((err) => {
         if (err) {
             console.error('Error logging out:', err);
             return res.status(500).send('Error logging out');
         }
-        const tempmail  =   req.session.verifiedemail;
+       
+        console.log(tempmail);
         req.session.destroy(err => {
             if (err) {
                 console.error('Error destroying session:', err);
