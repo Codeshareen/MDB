@@ -57,8 +57,9 @@ router.get('/notvalid', (req, res) => {
                 console.error('Error destroying session:', err);
                 return res.status(500).send('Error logging out');
             }
-            res.send('Unauthorized email domain');
-        });
+            res.write('Unauthorized email\n');
+            res.write('if you are facing any issue Please use private window');
+            res.end();        });
     });
 });
 
