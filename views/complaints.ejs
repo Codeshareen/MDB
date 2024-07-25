@@ -56,7 +56,7 @@
     </style>
 </head>
 <body>
-    <h1>Complaint Counts</h1>
+    <h1>Complaint Data</h1>
     <form action="/ch" method="POST"> <!-- Changed action to "/ch" and method to "POST" -->
         <label for="year">Select Year:</label>
         <select name="year" id="year">
@@ -71,7 +71,7 @@
     <% if (counts) { %>
         <h2>Complaints for Year <%= selectedYear %></h2>
         <p>Registered Complaints: <%= counts.registeredCount %></p>
-        <p>Solved Complaints: <%= counts.solvedCount %></p>
+        <p>Solved Complaints: <%= counts.solvedCount %></pData
     <% } else { %>
         <p>No data available for year <%= selectedYear %>.</p>
     <% } %>
